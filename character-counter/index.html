@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Assignment 1</title>
+    <style> 
+      /* ===== GENERAL STYLES ===== */
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        background-color: #080808; /* Dark background */
+        color: #ffffff;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 20px;
+      }
+
+      /* ===== HEADING ===== */
+      h1 {
+        color: #c05656; /* Dusty Crimson Accent */
+        font-size: 30px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-align: center;
+        margin: 0 0 25px 0;
+      }
+
+      /* ===== FORM CARD ===== */
+      form {
+        background-color: #121212;
+        border: 1px solid #222222;
+        border-radius: 12px;
+        padding: 30px;
+        width: 100%;
+        max-width: 500px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        background-color: #121212;
+        border: 1px solid #2a2a2a;
+        color: #ffffff;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus {
+        border-color: #c05656;
+      }
+
+      /* ===== CHARACTER COUNTERS ===== */
+      form p {
+        color: #888888;
+        font-size: 13px;
+        text-align: right;
+        margin: 6px 0 20px 0;
+      }
+
+      form p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ===== CHARACTER FREQUENCY OUTPUT ===== */
+      #char-count-output {
+        margin-top: 25px;
+        background-color: #121212;
+        border: 1px solid #222222;
+        border-radius: 12px;
+        padding: 20px;
+        width: 100%;
+        max-width: 500px;
+      }
+
+      #char-count-output h2 {
+        color: #c05656;
+        font-size: 18px;
+        margin: 0 0 15px 0;
+        text-align: center;
+      }
+
+      #character-breakdown {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .char-badge {
+        background-color: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 6px;
+        padding: 6px;
+        text-align: center;
+        color: #dddddd;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 700px) {
+        h1 {
+          font-size: 24px;
+        }
+
+        form, #char-count-output {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>Assignment 1 (Character Count)</h1>
+
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" maxlength="50">
+      <p id="name-count">0/50</p>
+
+      <label for="section">Section:</label>
+      <input type="text" id="section" maxlength="50">
+      <p id="section-count">0/50</p>
+
+      <label for="address">Address:</label>
+      <input type="text" id="address" maxlength="50">
+      <p id="address-count">0/50</p>
+    </form>
+
+    <div id="char-count-output">
+      <h2>Letter &amp; Number Count</h2>
+      <div id="character-breakdown"></div>
+    </div>
+
+    <script>
+      const nameInput = document.getElementById('name');
+      const sectionInput = document.getElementById('section');
+      const addressInput = document.getElementById('address');
+
+      const nameCount = document.getElementById('name-count');
+      const sectionCount = document.getElementById('section-count');
+      const addressCount = document.getElementById('address-count');
+
+      const breakdownContainer = document.getElementById('character-breakdown');
+
+      function updateCounts() {
+        // Update individual input length counters
+        nameCount.textContent = `${nameInput.value.length}/50`;
+        sectionCount.textContent = `${sectionInput.value.length}/50`;
+        addressCount.textContent = `${addressInput.value.length}/50`;
+
+        // Combine all inputs
+        const combinedText = (nameInput.value + sectionInput.value + addressInput.value).toUpperCase();
+
+        const counts = {};
+        const foundChars = [];
+
+        // Count frequencies
+        for (let i = 0; i < combinedText.length; i++) {
+          const char = combinedText[i];
+          // Only count alphanumeric characters (letters and numbers)
+          if (/[A-Z0-9]/.test(char)) {
+            if (!counts[char]) {
+              counts[char] = 0;
+              foundChars.push(char); // Track insertion order
+            }
+            counts[char]++;
+          }
+        }
+
+        // Render character frequency output badges
+        breakdownContainer.innerHTML = '';
+        for (let i = 0; i < foundChars.length; i++) {
+          const char = foundChars[i];
+          const badge = document.createElement('div');
+          badge.className = 'char-badge';
+          badge.textContent = `${char} - ${counts[char]}`;
+          breakdownContainer.appendChild(badge);
+        }
+      }
+
+      // Add event listeners for input fields
+      nameInput.addEventListener('input', updateCounts);
+      sectionInput.addEventListener('input', updateCounts);
+      addressInput.addEventListener('input', updateCounts);
+    </script>
+
+  </body>
+</html>

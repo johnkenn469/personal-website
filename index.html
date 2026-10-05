@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your HBKenn</title>
+    <style>
+        /* ===== GENERAL STYLES ===== */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background-color: #080808; /* Dark background matching reference image */
+            color: #ffffff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== NAVIGATION BAR ===== */
+        #navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 8%;
+            background-color: #080808;
+        }
+
+        #siteLogo {
+            color: #c05656; /* Dusty Crimson Accent */
+            margin: 0;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            margin-left: 25px;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #c05656;
+        }
+
+        /* Active Navigation Tab Indicator */
+        .nav-link.active {
+            color: #c05656;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #c05656;
+        }
+
+        /* ===== SECTIONS / PAGES ===== */
+        .page {
+            max-width: 1200px;
+            width: 85%;
+            margin: 20px auto 40px auto;
+            flex: 1;
+        }
+
+        /* ===== TAB 1: HOME ===== */
+        #homeLayout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            min-height: 70vh;
+            flex-wrap: wrap;
+        }
+
+        #home-photo {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Oval Profile Wrapper matching Reference Image Frame */
+        #profilePhoto {
+            width: 320px;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 200px; /* Oval shape */
+            border: 2px solid #331818;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            background: linear-gradient(145deg, #a83b3b, #121212);
+        }
+
+        #home-text {
+            flex: 1.2;
+            max-width: 600px;
+        }
+
+        #welcomeText {
+            color: #888888;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        #home-text h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin: 10px 0;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        #nameHighlight {
+            color: #c05656;
+        }
+
+        #homeDescription {
+            color: #a0a0a0;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        #homeButtons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        /* Pill Buttons matching the "Hire me" reference button */
+        #homeButtons button {
+            background-color: transparent;
+            color: #c05656;
+            border: 1px solid #c05656;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #homeButtons button:hover {
+            background-color: #c05656;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* ===== TAB 2: ABOUT ME ===== */
+        #aboutBoxes {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .about-box {
+            flex: 1;
+            min-width: 280px;
+            background-color: #121212;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #222222;
+        }
+
+        .about-box h2 {
+            color: #c05656;
+            margin-top: 0;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background-color: #1a1a1a;
+            color: #c05656;
+            border: 1px solid #c05656;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin: 5px 5px 5px 0;
+        }
+
+        /* ===== TAB 3: PORTFOLIO ===== */
+
+        /* Project cards sit in a 2-column grid */
+        #projectOutput {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .project-card {
+            display: flex;
+            background-color: #121212;
+            border: 1px solid #222222;
+            border-left: 3px solid #c05656; /* Crimson accent line */
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Project number column (01, 02, 03) */
+        .project-number {
+            width: 70px;
+            flex-shrink: 0;
+            padding: 25px 0;
+            text-align: center;
+            color: #c05656;
+            font-size: 14px;
+            letter-spacing: 2px;
+            border-right: 1px solid #222222;
+        }
+
+        .project-info {
+            flex: 1;
+            padding: 25px 30px;
+        }
+
+        .project-label {
+            color: #c05656;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0 0 12px 0;
+        }
+
+        .project-info h3 {
+            font-size: 26px;
+            font-weight: normal;
+            line-height: 1.25;
+            margin: 0 0 15px 0;
+        }
+
+        .project-description {
+            color: #a0a0a0;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .project-tag {
+            background-color: #1a1a1a;
+            color: #cccccc;
+            border: 1px solid #2a2a2a;
+            padding: 6px 12px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .view-btn {
+            background-color: transparent;
+            color: #c05656;
+            border: 1px solid #c05656;
+            padding: 12px 26px;
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: #c05656;
+            color: #ffffff;
+        }
+
+        /* ===== TAB 4: GALLERY ===== */
+        #galleryOutput {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .gallery-img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #222222;
+            transition: transform 0.2s;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+            border-color: #c05656;
+        }
+
+        #imageModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        #modalImage {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 8px;
+            border: 2px solid #c05656;
+        }
+
+        #closeModalBtn {
+            background-color: #c05656;
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        /* ===== TAB 5: CONTACT ===== */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input[type="text"], textarea {
+            background-color: #121212;
+            border: 1px solid #2a2a2a;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #c05656;
+        }
+
+        input[type="submit"] {
+            background-color: transparent;
+            color: #c05656;
+            border: 1px solid #c05656;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #c05656;
+            color: #ffffff;
+        }
+
+        /* ===== RESPONSIVE MEDIA QUERIES ===== */
+        @media (max-width: 700px) {
+            #navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-link {
+                margin: 0 10px;
+            }
+
+            #homeLayout {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            #homeButtons {
+                justify-content: center;
+            }
+
+            #home-text h1 {
+                font-size: 36px;
+            }
+
+            /* Project cards stack into one column on phones */
+            #projectOutput {
+                grid-template-columns: 1fr;
+            }
+
+            .project-number {
+                width: 50px;
+            }
+
+            .project-info {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVIGATION BAR ===== -->
+    <header id="navbar">
+        <h2 id="siteLogo">Your HBKenn</h2>
+        <nav id="navMenu">
+            <a href="#" class="nav-link" data-page="home">Home</a>
+            <a href="#" class="nav-link" data-page="about">About Me</a>
+            <a href="#" class="nav-link" data-page="portfolio">Portfolio</a>
+            <a href="#" class="nav-link" data-page="gallery">Gallery</a>
+            <a href="#" class="nav-link" data-page="contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- ===== TAB 1: HOME ===== -->
+    <section id="home" class="page">
+        <div id="homeLayout">
+
+            <div id="home-photo">
+                <img id="profilePhoto" src="images/profile.jpg" alt="Profile photo">
+            </div>
+
+            <div id="home-text">
+                <p id="welcomeText">WELCOME TO MY DIGITAL SPACE</p>
+                <h1>Hi, It's <span id="nameHighlight">Kenneth</span></h1>
+                <p id="homeDescription"></p>
+
+                <div id="homeButtons">
+                    <button type="button" id="viewPortfolioBtn">View Portfolio →</button>
+                    <button type="button" id="getInTouchBtn">Get in Touch</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== TAB 2: ABOUT ME ===== -->
+    <section id="about" class="page">
+        <h1 id="aboutTitle"></h1>
+        <p>Discover my background, mindset, and technical toolkit.</p>
+
+        <div id="aboutBoxes">
+            <div id="whoIAm" class="about-box">
+                <h2>Who I Am</h2>
+                <div id="bioOutput"></div>
+            </div>
+
+            <div id="technicalSkills" class="about-box">
+                <h2>Technical Skills</h2>
+                <p>Here are some of the primary technologies and methodologies I use:</p>
+                <div id="skillOutput"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TAB 3: PORTFOLIO ===== -->
+    <section id="portfolio" class="page">
+        <h1>Selected Works</h1>
+        <div id="projectOutput"></div>
+    </section>
+
+    <!-- ===== TAB 4: GALLERY ===== -->
+    <section id="gallery" class="page">
+        <h1>Visual Gallery</h1>
+        <p>Snapshots, 3D renders, and design concepts. Click any image to expand.</p>
+        <div id="galleryOutput"></div>
+
+        <!-- Expanded image modal -->
+        <div id="imageModal">
+            <button type="button" id="closeModalBtn">Close ✕</button>
+            <img id="modalImage" src="" alt="Expanded image">
+        </div>
+    </section>
+
+    <!-- ===== TAB 5: CONTACT ===== -->
+    <section id="contact" class="page">
+        <h1>Get In Touch</h1>
+        <p>Have an idea, project, or opportunity? Drop me a message below.</p>
+
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="contactName">Your Name</label>
+                <input type="text" id="contactName" placeholder="e.g. Jane Doe">
+
+                <label for="contactEmail">Your Email</label>
+                <input type="text" id="contactEmail" placeholder="e.g. jane@example.com">
+
+                <label for="contactSubject">Subject</label>
+                <input type="text" id="contactSubject" placeholder="Project Inquiry">
+
+                <label for="contactMessage">Message</label>
+                <textarea id="contactMessage" rows="5" placeholder="Tell me about your project or inquiry..."></textarea>
+                <small id="charCount">0 / 200 characters</small>
+
+                <p id="formFeedback"></p>
+                <input type="submit" value="Send Message">
+            </div>
+        </form>
+
+        <h2 style="margin-top: 30px;">Messages Sent:</h2>
+        <div id="messageOutput"></div>
+    </section>
+
+    <script>
+        // ---------- DATA (objects and arrays) ----------
+
+        // Object: personal profile
+        const profile = {
+            fullName: "John Kenneth Manabilang",
+            siteName: "Your HBKenn",
+            role: "Computer Science student",
+            intro: "I'm a Computer Science student passionate about technology, programming, and digital innovation. I enjoy turning ideas into practical solutions while continuously learning, developing my skills, and exploring new possibilities in the world of technology.",
+            bio: [
+                "Hi! I'm John Kenneth Manabilang, a Computer Science student with a passion for technology, programming, and continuous learning. I enjoy exploring how computer science can be used to solve problems, develop useful applications, and turn ideas into meaningful digital experiences. As a student, I am continuously developing my skills in programming, data structures, databases, web development, and data analysis.",
+                "Beyond academics, I enjoy exploring new technologies, working on programming projects, and finding ways to improve my technical and problem-solving skills. I believe that every project and challenge is an opportunity to learn something new and become a better developer.",
+                "I believe that learning never stops. Whether I'm coding, studying, or exploring new technologies, I always aim to grow, create, and use my knowledge in Computer Science to build useful and innovative solutions."
+            ]
+        };
+
+        // Array: list of page ids
+        const pageList = ["home", "about", "portfolio", "gallery", "contact"];
+
+        // Array: technical skills
+        const skills = [
+            "HTML & CSS",
+            "JavaScript",
+            "C Programming",
+            "C++ Programming",
+            "Java & Object-Oriented Programming",
+            "Problem Solving",
+            "Communication"
+        ];
+
+        // Array of objects: portfolio projects
+        const projects = [
+            {
+                label: "School Project",
+                title: "Character Counter System",
+                description: "A school project that counts the characters typed into the name, section, and address fields and shows how many times each letter and number appears, created using HTML, JavaScript, and CSS.",
+                tags: ["HTML", "JavaScript", "CSS"],
+                link: "character-counter/index.html"
+            },
+            {
+                label: "School Project",
+                title: "Student Registration System",
+                description: "A web-based registration system created using HTML and CSS featuring an interactive student signup form, dynamic dropdown categories, a styled table displaying student records, and account activity statuses.",
+                tags: ["HTML", "CSS"],
+                link: "student-registration/index.html"
+            },
+            {
+                label: "School Project",
+                title: "Student Attendance Tracking System",
+                description: "A dark-themed student attendance tracker that records student names with timestamps and displays them in a clean, modern list. It is designed to fit the aesthetic of the Kenneth personal web portfolio and highlights a polished, professional UI for project presentation.",
+                tags: ["HTML", "CSS", "JavaScript"],
+                link: "student-information/index.html"
+            }
+        ];
+
+        // Array: gallery pictures
+        const galleryImages = [
+            "images/gallery1.jpg",
+            "images/gallery2.jpg",
+            "images/gallery3.jpg",
+            "images/gallery4.jpg",
+            "images/gallery5.jpg",
+            "images/gallery6.jpg"
+        ];
+
+        // Array: messages sent through the contact form
+        const messageList = [];
+
+
+        // ---------- NAVIGATION ----------
+
+        function showPage(pageName) {
+            for (let i = 0; i < pageList.length; i++) {
+                const section = document.getElementById(pageList[i]);
+
+                if (pageList[i] === pageName) {
+                    section.style.display = "block";
+                } else {
+                    section.style.display = "none";
+                }
+            }
+
+            const navLinks = document.querySelectorAll(".nav-link");
+            for (let i = 0; i < navLinks.length; i++) {
+                if (navLinks[i].dataset.page === pageName) {
+                    navLinks[i].classList.add("active");
+                } else {
+                    navLinks[i].classList.remove("active");
+                }
+            }
+
+            let tabTitle = "";
+
+            switch (pageName) {
+                case "home":
+                    tabTitle = profile.siteName;
+                    break;
+                case "about":
+                    tabTitle = "About Me | " + profile.siteName;
+                    break;
+                case "portfolio":
+                    tabTitle = "Portfolio | " + profile.siteName;
+                    break;
+                case "gallery":
+                    tabTitle = "Gallery | " + profile.siteName;
+                    break;
+                default:
+                    tabTitle = "Contact | " + profile.siteName;
+            }
+
+            document.title = tabTitle;
+        }
+
+        const navLinks = document.querySelectorAll(".nav-link");
+        for (let i = 0; i < navLinks.length; i++) {
+            navLinks[i].addEventListener("click", function(event) {
+                event.preventDefault();
+                showPage(navLinks[i].dataset.page);
+            });
+        }
+
+        document.getElementById("viewPortfolioBtn").addEventListener("click", function() {
+            showPage("portfolio");
+        });
+
+        document.getElementById("getInTouchBtn").addEventListener("click", function() {
+            showPage("contact");
+        });
+
+
+        // ---------- HOME + ABOUT ME ----------
+
+        document.getElementById("homeDescription").textContent = profile.intro;
+        document.getElementById("aboutTitle").textContent = profile.siteName;
+
+        let bioHTML = "";
+        for (let i = 0; i < profile.bio.length; i++) {
+            bioHTML += "<p>" + profile.bio[i] + "</p>";
+        }
+        document.getElementById("bioOutput").innerHTML = bioHTML;
+
+        let skillHTML = "";
+        for (let i = 0; i < skills.length; i++) {
+            skillHTML += "<span class='skill-tag'>" + skills[i] + "</span> ";
+        }
+        document.getElementById("skillOutput").innerHTML = skillHTML;
+
+
+        // ---------- PORTFOLIO ----------
+
+        let projectHTML = "";
+        for (let i = 0; i < projects.length; i++) {
+            projectHTML += "<div class='project-card'>";
+
+            // Project number: 01, 02, 03
+            projectHTML += "<div class='project-number'>0" + (i + 1) + "</div>";
+
+            projectHTML += "<div class='project-info'>";
+
+            // Only show the parts that are filled in
+            if (projects[i].label !== "") {
+                projectHTML += "<p class='project-label'>" + projects[i].label + "</p>";
+            }
+            if (projects[i].title !== "") {
+                projectHTML += "<h3>" + projects[i].title + "</h3>";
+            }
+            if (projects[i].description !== "") {
+                projectHTML += "<p class='project-description'>" + projects[i].description + "</p>";
+            }
+
+            // Programs used (a loop inside the loop)
+            if (projects[i].tags.length > 0) {
+                projectHTML += "<div class='project-tags'>";
+                for (let j = 0; j < projects[i].tags.length; j++) {
+                    projectHTML += "<span class='project-tag'>" + projects[i].tags[j] + "</span>";
+                }
+                projectHTML += "</div>";
+            }
+
+            projectHTML += "<button type='button' class='view-btn' data-index='" + i + "'>View Project</button>";
+            projectHTML += "</div>";
+            projectHTML += "</div>";
+        }
+        document.getElementById("projectOutput").innerHTML = projectHTML;
+
+        // Click "View Project": go to the project's page
+        const viewButtons = document.querySelectorAll(".view-btn");
+        for (let i = 0; i < viewButtons.length; i++) {
+            viewButtons[i].addEventListener("click", function() {
+                const link = projects[i].link;
+
+                if (link !== "") {
+                    window.location.href = link;
+                } else {
+                    alert("This project is coming soon!");
+                }
+            });
+        }
+
+
+        // ---------- GALLERY ----------
+
+        let galleryHTML = "";
+        for (let i = 0; i < galleryImages.length; i++) {
+            galleryHTML += "<img class='gallery-img' src='" + galleryImages[i] + "' alt='Gallery image " + (i + 1) + "'>";
+        }
+        document.getElementById("galleryOutput").innerHTML = galleryHTML;
+
+        const imageModal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+
+        imageModal.style.display = "none";
+
+        const galleryPictures = document.querySelectorAll(".gallery-img");
+        for (let i = 0; i < galleryPictures.length; i++) {
+            galleryPictures[i].addEventListener("click", function() {
+                modalImage.src = galleryPictures[i].src;
+                imageModal.style.display = "flex";
+            });
+        }
+
+        document.getElementById("closeModalBtn").addEventListener("click", function() {
+            imageModal.style.display = "none";
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                imageModal.style.display = "none";
+            }
+        });
+
+
+        // ---------- CONTACT FORM ----------
+
+        const contactMessage = document.getElementById("contactMessage");
+        const formFeedback = document.getElementById("formFeedback");
+
+        contactMessage.addEventListener("input", function() {
+            const length = contactMessage.value.length;
+            document.getElementById("charCount").textContent = length + " / 200 characters";
+
+            if (length > 200) {
+                document.getElementById("charCount").style.color = "#c05656";
+            } else {
+                document.getElementById("charCount").style.color = "";
+            }
+        });
+
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("contactName").value.trim();
+            const email = document.getElementById("contactEmail").value.trim();
+            const subject = document.getElementById("contactSubject").value.trim();
+            const message = contactMessage.value.trim();
+
+            if (name === "") {
+                formFeedback.textContent = "Please enter your name.";
+                formFeedback.style.color = "#c05656";
+            } else if (!email.includes("@") || !email.includes(".")) {
+                formFeedback.textContent = "Please enter a valid email address.";
+                formFeedback.style.color = "#c05656";
+            } else if (message === "") {
+                formFeedback.textContent = "Please write your message.";
+                formFeedback.style.color = "#c05656";
+            } else if (message.length > 200) {
+                formFeedback.textContent = "Your message is too long (maximum of 200 characters).";
+                formFeedback.style.color = "#c05656";
+            } else {
+
+                const now = new Date();
+                const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+                messageList.push({
+                    name: name,
+                    email: email,
+                    subject: subject === "" ? "Project Inquiry" : subject,
+                    message: message,
+                    time: timestamp
+                });
+
+                formFeedback.textContent = "Thank you, " + name + "! Your message has been sent.";
+                formFeedback.style.color = "#4cd137";
+                alert("Your message has been sent successfully!");
+
+                document.getElementById("contactForm").reset();
+                document.getElementById("charCount").textContent = "0 / 200 characters";
+
+                let messageHTML = "";
+                for (let i = 0; i < messageList.length; i++) {
+                    messageHTML += (i + 1) + ". <strong>" + messageList[i].subject + "</strong> from " + messageList[i].name;
+                    messageHTML += " <small>(Sent at: " + messageList[i].time + ")</small><br>";
+                }
+                document.getElementById("messageOutput").innerHTML = messageHTML;
+            }
+        });
+
+        // Initialize Page
+        showPage("home");
+    </script>
+</body>
+
+</html>

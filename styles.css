@@ -1,0 +1,87 @@
+/* ===== GENERAL STYLES ===== */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    background-color: #080808; /* Dark background */
+    color: #ffffff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+/* ===== HEADING ===== */
+h1 {
+    color: #c05656; /* Dusty Crimson Accent */
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 0 0 25px 0;
+}
+
+/* ===== FORM CARD ===== */
+form {
+    background-color: #121212;
+    border: 1px solid #222222;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+input[type="text"] {
+    width: 100%;
+    background-color: #121212;
+    border: 1px solid #2a2a2a;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #c05656;
+}
+
+/* ===== CHARACTER COUNTERS ===== */
+form p {
+    color: #888888;
+    font-size: 13px;
+    text-align: right;
+    margin: 6px 0 20px 0;
+}
+
+form p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    form {
+        padding: 20px;
+    }
+}

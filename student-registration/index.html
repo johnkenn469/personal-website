@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration System</title>
+  <style>
+    /* ===== GENERAL STYLES ===== */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #080808; /* Dark background (same as the portfolio) */
+      color: #ffffff;
+      margin: 0;
+      padding: 30px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ===== HEADING ===== */
+    .main-title {
+      color: #c05656; /* Dusty Crimson Accent */
+      text-align: center;
+      margin-bottom: 4px;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #888888;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+
+    /* ===== FORM CARD ===== */
+    .form-card {
+      border: 1px solid #222222;
+      border-radius: 12px;
+      padding: 30px;
+      background-color: #121212;
+      margin-bottom: 40px;
+    }
+
+    .form-card h3 {
+      color: #c05656;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background-color: #121212;
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #c05656;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #666666;
+    }
+
+    .form-group select option,
+    .form-group select optgroup {
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .radio-group label {
+      font-weight: normal;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      accent-color: #c05656;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .btn-register {
+      background-color: transparent;
+      color: #c05656;
+      border: 1px solid #c05656;
+      padding: 12px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .btn-register:hover {
+      background-color: #c05656;
+      color: #ffffff;
+    }
+
+    .btn-clear {
+      background-color: transparent;
+      color: #bbbbbb;
+      border: 1px solid #444444;
+      padding: 12px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .btn-clear:hover {
+      background-color: #2a2a2a;
+      color: #ffffff;
+    }
+
+    /* ===== TABLE STYLING ===== */
+    .section-title {
+      color: #c05656;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      text-align: center;
+      font-size: 13px;
+      background-color: #121212;
+    }
+
+    th {
+      background-color: #1a1a1a;
+      color: #c05656;
+      padding: 12px 6px;
+      border-bottom: 2px solid #c05656;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    td {
+      padding: 12px 6px;
+      border-bottom: 1px solid #222222;
+      color: #dddddd;
+      word-break: break-word;
+    }
+
+    tbody tr:hover {
+      background-color: #1a1a1a;
+    }
+
+    /* Account status: Active = green, Inactive = crimson */
+    td:last-child {
+      color: #4cd137;
+      font-weight: bold;
+    }
+
+    td.status-inactive {
+      background-color: rgba(192, 86, 86, 0.15);
+      color: #c05656;
+      font-weight: bold;
+    }
+
+    /* ===== INFORMATION SECTION ===== */
+    .info-section {
+      text-align: center;
+      font-size: 13px;
+      color: #a0a0a0;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .info-section h4 {
+      font-size: 15px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #222222;
+      margin: 25px 0;
+    }
+
+    .footer-text {
+      text-align: center;
+      color: #888888;
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .main-title {
+        font-size: 24px;
+      }
+
+      .form-card {
+        padding: 20px;
+      }
+
+      table {
+        font-size: 11px;
+      }
+
+      th {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="main-title">Student Registration System</div>
+    <div class="subtitle">Web Design and Programming</div>
+
+    <!-- Registration Form -->
+    <div class="form-card">
+      <h3>Student Registration</h3>
+      <form>
+        <div class="form-group">
+          <label>Full Name:</label>
+          <input type="text" placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label>AGE:</label>
+          <input type="number" placeholder="Enter your Age">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address:</label>
+          <input type="email" placeholder="example@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label>Student ID:</label>
+          <input type="text" placeholder="Enter Student ID">
+        </div>
+
+        <div class="form-group">
+          <label>Course:</label>
+          <select>
+            <optgroup label="DCI">
+              <option value="BSCS">BSCS</option>
+              <option value="BSIT">BSIT</option>
+              <option value="BSIS">BSIS</option>
+            </optgroup>
+            <optgroup label="DAB">
+              <option value="BSM">BSM</option>
+              <option value="BSS">BSS</option>
+              <option value="BSC">BSC</option>
+              <option value="BSP">BSP</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Gender:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gender" value="Male"> Male</label>
+            <label><input type="radio" name="gender" value="Female"> Female</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Message:</label>
+          <textarea rows="3" placeholder="Enter your message..."></textarea>
+        </div>
+
+        <div class="btn-container">
+          <button type="submit" class="btn-register">Register</button>
+          <button type="reset" class="btn-clear">Clear</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Registered Students Table -->
+    <div class="section-title">Registered Students</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>Course</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-001</td>
+          <td>John Kenneth Manabilang</td>
+          <td>BSCS</td>
+          <td>jhnman@gmail.com</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>2026-002</td>
+          <td>Vlad Reyes</td>
+          <td>BSIT</td>
+          <td>vdrey@gmail.com</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>2026-003</td>
+          <td>Mika Aselom</td>
+          <td>BSM</td>
+          <td>mkaase@gmail.com</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>2026-004</td>
+          <td>Emman Reyes</td>
+          <td>BSIS</td>
+          <td>enrey@gmail.com</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>2026-005</td>
+          <td>Zaldi Co</td>
+          <td>BSS</td>
+          <td>zlco@gmail.com</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>2026-006</td>
+          <td>Ronald Triump</td>
+          <td>BSC</td>
+          <td>rldtri@gmail.com</td>
+          <td class="status-inactive">Inactive</td>
+        </tr>
+        <tr>
+          <td>2026-007</td>
+          <td>Bongbong Bato</td>
+          <td>BSP</td>
+          <td>bgbat@gmail.com</td>
+          <td class="status-inactive">Inactive</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Info Section -->
+    <div class="info-section">
+      <h4>Registration Information</h4>
+      <p>Please complete all required fields before submitting the registration form. Make sure that all the information provided is accurate and correct to maintain your slot.</p>
+    </div>
+
+    <hr>
+
+    <div class="footer-text">
+      John Kenneth L. Manabilang IICS-1
+    </div>
+  </div>
+
+</body>
+</html>
